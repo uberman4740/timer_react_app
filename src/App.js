@@ -158,6 +158,9 @@ class ToggleableTimerForm extends Component {
     state = {
         isOpen: false
     }
+    handleFormOpen = () => {
+        this.setState({isOpen: true})
+    }
 
     render() {
         if (this.state.isOpen) {
@@ -166,7 +169,14 @@ class ToggleableTimerForm extends Component {
             );
         }
         else {
-            <button>Add new item</button>
+            return (
+                <button
+                    onClick={this.handleFormOpen}
+                >
+                    Add new item
+                </button>
+            );
+
         }
     }
 }
