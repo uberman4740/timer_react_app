@@ -65,12 +65,38 @@ class EditableTimer extends Component{
         }
     }
 }
+class TimerForm extends Component{
+    render(){
+        const submitText = this.props.title ? 'Update' : 'Create';
+        return(
+            <div>
+                <div>
+                    <label>Title</label>
+                    <input type='text' defaultValue={this.props.title}/>
+                </div>
+                <div>
+                    <label>Project</label>
+                    <input type='text' defaultValue={this.props.project}/>
+                    <div>
+                        <button>
+                            {submitText}
+                        </button>
+                        <button>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+}
 
 class App extends Component {
   render() {
     return (
         <div>
             <TimersDashboard/>
+
 
 
 
