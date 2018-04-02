@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+
 const uuidv4 = require('uuid/v4');
 
 
@@ -6,18 +7,18 @@ class TimersDashboard extends Component {
     state = {
         timers: [
             {
-                title : "Morning Coding",
-                project : "Personal Development",
-                elapsed : "0000001",
-                runningSince : null ,
+                title: "Morning Coding",
+                project: "Personal Development",
+                elapsed: "0000001",
+                runningSince: null,
                 id: uuidv4()
             },
             {
-                title:"Cooking Breakfast",
-                project:"Food",
-                elapsed:"0000012",
-                runningSince:Date.now(),
-                id : uuidv4()
+                title: "Cooking Breakfast",
+                project: "Food",
+                elapsed: "0000012",
+                runningSince: Date.now(),
+                id: uuidv4()
 
             }
         ]
@@ -27,7 +28,7 @@ class TimersDashboard extends Component {
         return (
             <div>
                 <EditableTimerList
-                    timers = {this.state.timers}
+                    timers={this.state.timers}
                 />
                 <ToggleableTimerForm/>
             </div>
@@ -39,14 +40,14 @@ class TimersDashboard extends Component {
 
 class EditableTimerList extends Component {
     render() {
-        const timers = this.props.timers.map((timer)=>(
+        const timers = this.props.timers.map((timer) => (
             <EditableTimer
-                key = {timer.id}
+                key={timer.id}
                 id={timer.id}
                 title={timer.title}
-                project= {timer.project}
-                elapped = {timer.elapsed}
-                runningSince = {timer.runningSince}
+                project={timer.project}
+                elapped={timer.elapsed}
+                runningSince={timer.runningSince}
             />
         ))
         return (
@@ -60,14 +61,15 @@ class EditableTimerList extends Component {
 
 class EditableTimer extends Component {
     state = {
-        editFormOpen : false
+        editFormOpen: false
     }
+
     render() {
         if (this.state.editFormOpen) {
             return (
                 <div>
                     <TimerForm
-                        id = {this.props.id}
+                        id={this.props.id}
                         title={this.props.title}
                         project={this.props.project}
 
@@ -80,7 +82,7 @@ class EditableTimer extends Component {
             return (
                 <div>
                     <Timer
-                        id = {this.props.id}
+                        id={this.props.id}
                         title={this.props.title}
                         project={this.props.project}
                         elapsed={this.props.elapsed}
@@ -94,17 +96,34 @@ class EditableTimer extends Component {
 }
 
 class TimerForm extends Component {
+    state = {
+        title: this.props.title || '',
+        project: this.props.project || ''
+    };
+    handleProjectChange = (e) => {
+        this.setState({project: e.target.value});
+    };
+    handleTitleChange = (e) => {
+        this.setState({title: e.target.value})
+    }
+
     render() {
         const submitText = this.props.title ? 'Update' : 'Create';
         return (
             <div>
                 <div>
                     <label>Title</label>
-                    <input type='text' defaultValue={this.props.title}/>
+                    <input type='text'
+                           value={this.state.title}
+                           onChange={this.handleTitleChange}
+                    />
                 </div>
                 <div>
                     <label>Project</label>
-                    <input type='text' defaultValue={this.props.project}/>
+                    <input
+                        type='text'
+                        value={this.state.project}
+                        onChange={this.handleProjectChange}/>
                     <div>
                         <button>
                             {submitText}
@@ -139,6 +158,7 @@ class ToggleableTimerForm extends Component {
     state = {
         isOpen: false
     }
+
     render() {
         if (this.state.isOpen) {
             return (
