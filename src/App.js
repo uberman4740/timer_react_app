@@ -36,6 +36,36 @@ class EditableTimerList extends Component{
         );
     }
 }
+class EditableTimer extends Component{
+    render(){
+        if (this.props.editFormOpen){
+            return(
+                <div>
+                    <TimerForm
+                        title = {this.props.title}
+                        project = {this.props.project}
+
+
+                    />
+                </div>
+            );
+        }
+        else {
+            return(
+                <div>
+                    <Timer
+                    title = {this.props.title}
+                    project = {this.props.project}
+                    elapsed={this.props.elapsed}
+                    runningSince={this.props.runningSince}
+
+                    />
+                </div>
+            );
+        }
+    }
+}
+
 class App extends Component {
   render() {
     return (
