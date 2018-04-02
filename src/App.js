@@ -1,12 +1,35 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
+const uuidv4 = require('uuid/v4');
 
 
-class TimersDashboard extends Component{
-    render(){
+class TimersDashboard extends Component {
+    state = {
+        timers: [
+            {
+                title : "Morning Coding",
+                project : "Personal Development",
+                elapsed : "0000001",
+                runningSince : null ,
+                id: uuidv4()
+            },
+            {
+                title:"Cooking Breakfast",
+                project:"Food",
+                elapsed:"0000012",
+                runningSince:Date.now(),
+                id : uuidv4()
+
+            }
+        ]
+    }
+
+    render() {
         return (
             <div>
-                <EditableTimerList/>
-                <ToggleableTimerForm isOpen={true}/>
+                <EditableTimerList
+                    timers = {this.state.timers}
+                />
+                <ToggleableTimerForm/>
             </div>
 
         );
@@ -14,9 +37,9 @@ class TimersDashboard extends Component{
 }
 
 
-class EditableTimerList extends Component{
-    render(){
-        return(
+class EditableTimerList extends Component {
+    render() {
+        return (
             <div>
                 <EditableTimer
                     title="Morning Coding"
@@ -36,14 +59,15 @@ class EditableTimerList extends Component{
         );
     }
 }
-class EditableTimer extends Component{
-    render(){
-        if (this.props.editFormOpen){
-            return(
+
+class EditableTimer extends Component {
+    render() {
+        if (this.props.editFormOpen) {
+            return (
                 <div>
                     <TimerForm
-                        title = {this.props.title}
-                        project = {this.props.project}
+                        title={this.props.title}
+                        project={this.props.project}
 
 
                     />
@@ -51,13 +75,13 @@ class EditableTimer extends Component{
             );
         }
         else {
-            return(
+            return (
                 <div>
                     <Timer
-                    title = {this.props.title}
-                    project = {this.props.project}
-                    elapsed={this.props.elapsed}
-                    runningSince={this.props.runningSince}
+                        title={this.props.title}
+                        project={this.props.project}
+                        elapsed={this.props.elapsed}
+                        runningSince={this.props.runningSince}
 
                     />
                 </div>
@@ -65,10 +89,11 @@ class EditableTimer extends Component{
         }
     }
 }
-class TimerForm extends Component{
-    render(){
+
+class TimerForm extends Component {
+    render() {
         const submitText = this.props.title ? 'Update' : 'Create';
-        return(
+        return (
             <div>
                 <div>
                     <label>Title</label>
@@ -91,9 +116,9 @@ class TimerForm extends Component{
     }
 }
 
-class Timer extends Component{
-    render(){
-        return(
+class Timer extends Component {
+    render() {
+        return (
             <div>
                 {this.props.title}
                 {this.props.project}
@@ -107,34 +132,30 @@ class Timer extends Component{
     }
 }
 
-class ToggleableTimerForm extends Component{
-    render(){
-        if (this.props.isOpen){
-            return(
+class ToggleableTimerForm extends Component {
+    render() {
+        if (this.props.isOpen) {
+            return (
                 <TimerForm/>
             );
         }
-        else{
+        else {
             <button>Add new item</button>
         }
     }
 }
 
 class App extends Component {
-  render() {
-    return (
-        <div>
-            <TimersDashboard/>
+    render() {
+        return (
+            <div>
+                <TimersDashboard/>
 
 
+            </div>
 
-
-
-        </div>
-
-
-    );
-  }
+        );
+    }
 }
 
 export default App;
