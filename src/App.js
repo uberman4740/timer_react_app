@@ -91,6 +91,35 @@ class TimerForm extends Component{
     }
 }
 
+class Timer extends Component{
+    render(){
+        return(
+            <div>
+                {this.props.title}
+                {this.props.project}
+                {this.props.elapsedTime}
+                <div>
+                    Start
+                </div>
+            </div>
+        );
+
+    }
+}
+
+class ToggleableTimerForm extends Component{
+    render(){
+        if (this.props.isOpen){
+            return(
+                <TimerForm/>
+            );
+        }
+        else{
+            <button>Add new item</button>
+        }
+    }
+}
+
 class App extends Component {
   render() {
     return (
