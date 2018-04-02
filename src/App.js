@@ -39,21 +39,19 @@ class TimersDashboard extends Component {
 
 class EditableTimerList extends Component {
     render() {
+        const timers = this.props.timers.map((timer)=>(
+            <EditableTimerList
+                key = {timer.id}
+                id={timer.id}
+                title={timer.title}
+                project= {timer.project}
+                elapped = {timer.elapsed}
+                runningSince = {timer.runningSince}
+            />
+        ))
         return (
             <div>
-                <EditableTimer
-                    title="Morning Coding"
-                    project="Personal Development"
-                    elapsed="0000001"
-                    runningSince={null}
-                />
-                <EditableTimer
-                    title="Cooking Breakfast"
-                    project="Food"
-                    elapsed="0000012"
-                    runningSince={null}
-                    editFormOpen={true}
-                />
+                {timers}
 
             </div>
         );
