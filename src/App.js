@@ -30,7 +30,6 @@ class TimersDashboard extends Component {
 
         }
         this.setState({
-        })
             timers: this.state.timers.concat(newTimer)
         });
     }
@@ -68,7 +67,7 @@ class ToggleableTimerForm extends Component {
     render() {
         if (this.state.isOpen) {
             return (
-                <TimerForm onFormSubmmit={this.handleFormSubmit}
+                <TimerForm onFormSubmit={this.handleFormSubmit}
                            onFormClose={this.handleFormClose}
                 />
 
