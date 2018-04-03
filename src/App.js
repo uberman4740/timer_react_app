@@ -30,7 +30,7 @@ class TimersDashboard extends Component {
             project:timer.project || 'Project',
             elapsed:0,
             // runningSince:null,
-            id:uuidv4
+            id:uuidv4()
 
         }
         this.setState({
@@ -48,6 +48,40 @@ class TimersDashboard extends Component {
             </div>
 
         );
+    }
+}
+
+
+class ToggleableTimerForm extends Component {
+    // Dashboard -> ToggleableTimerForm
+
+    state = {
+        isOpen: false
+    }
+    handleFormOpen = () => {
+        this.setState({isOpen: true})
+    }
+    handleFormSubmit=(timer)=>{
+        this.props.onFormSubmit(timer)
+        this.setState({isOpen: false})
+    }
+
+    render() {
+        if (this.state.isOpen) {
+            return (
+                <TimerForm onFormSubmmit={this.handleFormSubmit}/>
+            );
+        }
+        else {
+            return (
+                <button
+                    onClick={this.handleFormOpen}
+                >
+                    Add new item
+                </button>
+            );
+
+        }
     }
 }
 
@@ -108,6 +142,9 @@ class EditableTimer extends Component {
         }
     }
 }
+
+
+
 
 class TimerForm extends Component {
     // Dashboard -> ToggleableTimerForm ------------------> TimerForm
@@ -175,39 +212,6 @@ class Timer extends Component {
             </div>
         );
 
-    }
-}
-
-class ToggleableTimerForm extends Component {
-    // Dashboard -> ToggleableTimerForm
-
-    state = {
-        isOpen: false
-    }
-    handleFormOpen = () => {
-        this.setState({isOpen: true})
-    }
-    handleFormSubmit=(timer)=>{
-        this.props.onFormSubmit(timer)
-        this.setState({isOpen: false})
-    }
-
-    render() {
-        if (this.state.isOpen) {
-            return (
-                <TimerForm onFormSubmmit={this.handleFormSubmit}/>
-            );
-        }
-        else {
-            return (
-                <button
-                    onClick={this.handleFormOpen}
-                >
-                    Add new item
-                </button>
-            );
-
-        }
     }
 }
 
