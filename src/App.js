@@ -24,13 +24,27 @@ class TimersDashboard extends Component {
         ]
     }
 
+    onFormSubmit = (timer) =>{
+        const newTimer = {
+            title:timer.title || 'Timer',
+            project:timer.project || 'Project',
+            elapsed:0,
+            // runningSince:null,
+            id:uuidv4
+
+        }
+        this.setState({
+            timers:  this.state.timers.concat(newTimer)
+        })
+    }
+
     render() {
         return (
             <div>
                 <EditableTimerList
                     timers={this.state.timers}
                 />
-                <ToggleableTimerForm/>
+                <ToggleableTimerForm onFormSubmit={this.onFormSubmit}/>
             </div>
 
         );
@@ -96,6 +110,8 @@ class EditableTimer extends Component {
 }
 
 class TimerForm extends Component {
+    // Dashboard -> ToggleableTimerForm ------------------> TimerForm
+    //           -> EditableTimerList   -> EditableTimer -> TimerForm
     state = {
         title: this.props.title || '',
         project: this.props.project || ''
@@ -105,6 +121,13 @@ class TimerForm extends Component {
     };
     handleTitleChange = (e) => {
         this.setState({title: e.target.value})
+    }
+    handleSubmit = ()=>{
+        this.props.onFormSubmit({
+            id:this.props.id, // can be undefined?
+            title: this.state.title,
+            project: this.state.project
+        })
     }
 
     render() {
@@ -125,7 +148,8 @@ class TimerForm extends Component {
                         value={this.state.project}
                         onChange={this.handleProjectChange}/>
                     <div>
-                        <button>
+
+                        <button onClick={this.handleSubmit}>
                             {submitText}
                         </button>
                         <button>
@@ -155,17 +179,23 @@ class Timer extends Component {
 }
 
 class ToggleableTimerForm extends Component {
+    // Dashboard -> ToggleableTimerForm
+
     state = {
         isOpen: false
     }
     handleFormOpen = () => {
         this.setState({isOpen: true})
     }
+    handleFormSubmit=(timer)=>{
+        this.props.onFormSubmit(timer)
+        this.setState({isOpen: false})
+    }
 
     render() {
         if (this.state.isOpen) {
             return (
-                <TimerForm/>
+                <TimerForm onFormSubmmit={this.handleFormSubmit}/>
             );
         }
         else {
