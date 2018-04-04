@@ -2,6 +2,11 @@ import React, {Component} from 'react';
 
 const uuidv4 = require('uuid/v4');
 
+<<<<<<< HEAD
+=======
+//CREATE WORKING!
+
+>>>>>>> create-tasks
 class TimersDashboard extends Component {
     state = {
         timers: [
