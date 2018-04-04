@@ -22,6 +22,11 @@ class TimersDashboard extends Component {
             }
         ]
     }
+    onDeleteTimer = (timerId)=>{
+        this.setState({
+            timers: this.state.timers.filter(timer=>timer.id !== timerId)
+        })
+    }
     handleCreateFormSubmit = (timer) => {
         const newTimer = {
             title: timer.title || 'Timer',
@@ -55,7 +60,11 @@ class TimersDashboard extends Component {
             <div>
                 <EditableTimerList
                     timers={this.state.timers}
+<<<<<<< HEAD
                     onFormSubmit={this.handleEditFormSubmit}
+=======
+                    onDeleteTimer = {this.onDeleteTimer}
+>>>>>>> delete-tasks
                 />
                 <ToggleableTimerForm onFormSubmit={this.handleCreateFormSubmit}/>
             </div>
@@ -115,7 +124,11 @@ class EditableTimerList extends Component {
                 project={timer.project}
                 elapsed={timer.elapsed}
                 runningSince={timer.runningSince}
+<<<<<<< HEAD
                 onFormSubmit={this.props.onFormSubmit}
+=======
+                onDeleteTimer = {this.props.onDeleteTimer}
+>>>>>>> delete-tasks
             />
         ))
         return (
@@ -169,7 +182,12 @@ class EditableTimer extends Component {
                         project={this.props.project}
                         elapsed={this.props.elapsed}
                         runningSince={this.props.runningSince}
+<<<<<<< HEAD
                         onEditClick={this.handleEditClick}
+=======
+                        onDeleteTimer = {this.props.onDeleteTimer}
+
+>>>>>>> delete-tasks
                     />
                 </div>
             );
@@ -233,6 +251,9 @@ class TimerForm extends Component {
 }
 
 class Timer extends Component {
+    handleTrashClick= ()=>{
+        this.props.onDeleteTimer(this.props.id)
+    }
     render() {
         return (
             <div>
@@ -242,7 +263,11 @@ class Timer extends Component {
                 <button>
                     Start
                 </button>
+<<<<<<< HEAD
                 <button onClick={this.props.onEditClick}>Edit</button>
+=======
+                <button onClick={this.handleTrashClick}>Delete</button>
+>>>>>>> delete-tasks
             </div>
         );
 
