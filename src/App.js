@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
+
 const uuidv4 = require('uuid/v4');
+
 class TimersDashboard extends Component {
     state = {
         timers: [
@@ -33,12 +35,27 @@ class TimersDashboard extends Component {
             timers: this.state.timers.concat(newTimer)
         });
     }
+    handleEditFormSubmit = (attr) => {
+        this.setState({
+            timers: this.state.timers.map(timer => {
+                if (attr.id === timer.id) {
+                    return Object.assign({}, timer, {title: attr.title, project: attr.project})
+                }
+                else{
+                    return timer
+                }
+            })
+        })
+
+
+    }
 
     render() {
         return (
             <div>
                 <EditableTimerList
                     timers={this.state.timers}
+                    onFormSubmit={this.handleEditFormSubmit}
                 />
                 <ToggleableTimerForm onFormSubmit={this.handleCreateFormSubmit}/>
             </div>
@@ -88,6 +105,7 @@ class ToggleableTimerForm extends Component {
 
 
 class EditableTimerList extends Component {
+
     render() {
         const timers = this.props.timers.map((timer) => (
             <EditableTimer
@@ -97,6 +115,7 @@ class EditableTimerList extends Component {
                 project={timer.project}
                 elapsed={timer.elapsed}
                 runningSince={timer.runningSince}
+                onFormSubmit={this.props.onFormSubmit}
             />
         ))
         return (
@@ -109,8 +128,22 @@ class EditableTimerList extends Component {
 }
 
 class EditableTimer extends Component {
+    //Dashboard --> EditableTimerList --> EditableTimer
     state = {
         editFormOpen: false
+    }
+    handleEditClick = () => {
+        this.setState({editFormOpen: true})
+
+    }
+    handleSubmit = (timer) => {
+        this.props.onFormSubmit(timer)
+        this.setState({editFormOpen: false})
+
+    }
+    onFormClose = () => {
+        this.setState({editFormOpen: false})
+
     }
 
     render() {
@@ -121,8 +154,8 @@ class EditableTimer extends Component {
                         id={this.props.id}
                         title={this.props.title}
                         project={this.props.project}
-
-
+                        onFormSubmit={this.handleSubmit}
+                        onFormClose={this.onFormClose}
                     />
                 </div>
             );
@@ -136,7 +169,7 @@ class EditableTimer extends Component {
                         project={this.props.project}
                         elapsed={this.props.elapsed}
                         runningSince={this.props.runningSince}
-
+                        onEditClick={this.handleEditClick}
                     />
                 </div>
             );
@@ -209,6 +242,7 @@ class Timer extends Component {
                 <button>
                     Start
                 </button>
+                <button onClick={this.props.onEditClick}>Edit</button>
             </div>
         );
 
