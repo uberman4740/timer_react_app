@@ -20,6 +20,11 @@ class TimersDashboard extends Component {
             }
         ]
     }
+    onDeleteTimer = (timerId)=>{
+        this.setState({
+            timers: this.state.timers.filter(timer=>timer.id !== timerId)
+        })
+    }
     handleCreateFormSubmit = (timer) => {
         const newTimer = {
             title: timer.title || 'Timer',
@@ -39,6 +44,7 @@ class TimersDashboard extends Component {
             <div>
                 <EditableTimerList
                     timers={this.state.timers}
+                    onDeleteTimer = {this.onDeleteTimer}
                 />
                 <ToggleableTimerForm onFormSubmit={this.handleCreateFormSubmit}/>
             </div>
@@ -88,6 +94,7 @@ class ToggleableTimerForm extends Component {
 
 
 class EditableTimerList extends Component {
+
     render() {
         const timers = this.props.timers.map((timer) => (
             <EditableTimer
@@ -97,6 +104,7 @@ class EditableTimerList extends Component {
                 project={timer.project}
                 elapsed={timer.elapsed}
                 runningSince={timer.runningSince}
+                onDeleteTimer = {this.props.onDeleteTimer}
             />
         ))
         return (
@@ -136,6 +144,7 @@ class EditableTimer extends Component {
                         project={this.props.project}
                         elapsed={this.props.elapsed}
                         runningSince={this.props.runningSince}
+                        onDeleteTimer = {this.props.onDeleteTimer}
 
                     />
                 </div>
@@ -200,6 +209,9 @@ class TimerForm extends Component {
 }
 
 class Timer extends Component {
+    handleTrashClick= ()=>{
+        this.props.onDeleteTimer(this.props.id)
+    }
     render() {
         return (
             <div>
@@ -209,6 +221,7 @@ class Timer extends Component {
                 <button>
                     Start
                 </button>
+                <button onClick={this.handleTrashClick}>Delete</button>
             </div>
         );
 
