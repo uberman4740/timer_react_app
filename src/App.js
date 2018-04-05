@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
+import renderElapsedString from './helpers.js'
 
 const uuidv4 = require('uuid/v4');
-
 class TimersDashboard extends Component {
     state = {
         timers: [
@@ -22,6 +22,10 @@ class TimersDashboard extends Component {
             }
         ]
     }
+
+
+
+
     onDeleteTimer = (timerId) => {
         this.setState({
             timers: this.state.timers.filter(timer => timer.id !== timerId)
@@ -266,11 +270,20 @@ class TimerForm extends Component {
 }
 
 class Timer extends Component {
+    componentDidMount(){
+        this.forceUpdateInterval = setInterval(()=>this.forceUpdate(),50)
+    }
+    componentWillUnmount(){
+        clearInterval(this.forceUpdateInterval)
+    }
+
+
     handleTrashClick = () => {
         this.props.onDeleteTimer(this.props.id)
     }
 
     render() {
+        const elapsedString = helpers.renderElapsedString(this.props.elapsed,this.props.runningSince)
         return (
             <div className={'ui centered card'}>
                 <div className={'content'}>
@@ -282,7 +295,7 @@ class Timer extends Component {
 
                     </div>
                     <div className={'center aligned description'}>
-                        {this.props.elapsed}
+                        {this.elapsedString}
                     </div>
                     <div className={'extra content'}>
                         <span className={'right floated edit icon'}
