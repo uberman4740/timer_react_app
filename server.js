@@ -21,9 +21,14 @@ app.use((req, res, next) => {
 });
 
 // GET all timers
-
+app.get('api/times', (req, res) => {
+  fs.readFile(DATA_FILE, (err, data) => {
+    res.setHeader('Cache-Control', 'no-cache');
+    res.json(JSON.parse(data));
+  });
+});
 
 
 app.listen(app.get('port'), () => {
-    console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
+  console.log(`Find the server at: http://localhost:${app.get('port')}/`); // eslint-disable-line no-console
 });
