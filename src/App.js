@@ -1,29 +1,28 @@
 import React, {Component} from 'react';
-import renderElapsedString from './helpers.js'
+import {renderElapsedString} from './helpers.js'
 
 const uuidv4 = require('uuid/v4');
+
 class TimersDashboard extends Component {
     state = {
         timers: [
             {
                 title: "Morning Coding",
                 project: "Personal Development",
-                elapsed: "0000001",
+                elapsed: 0,
                 runningSince: null,
                 id: uuidv4()
             },
             {
                 title: "Cooking Breakfast",
                 project: "Food",
-                elapsed: "0000012",
+                elapsed: 219894,
                 runningSince: Date.now(),
                 id: uuidv4()
 
             }
         ]
     }
-
-
 
 
     onDeleteTimer = (timerId) => {
@@ -58,6 +57,38 @@ class TimersDashboard extends Component {
 
 
     }
+    handleOnStartClick = (timerId) => {
+        const now = Date.now()
+        this.setState({
+            timers: this.state.timers.map(timer => {
+                if (timer.id === timerId) {
+                    return Object.assign({}, timer, {
+                        runningSince: now,
+
+                    })
+                }
+                else{
+                    return timer
+                }
+            })
+        })
+    }
+    handleOnStopClick = (timerId) =>{
+        const now = Date.now();
+        this.setState({timers: this.state.timers.map(timer=>{
+            if (timer.id === timerId){
+                const lastElapsed = now -timer.runningSince;
+                return Object.assign({},timer,{
+                    elapsed: timer.elapsed + lastElapsed,
+                    runningSince:null})
+            }
+            else{
+                return timer
+            }
+
+        })})
+    }
+
 
     render() {
         return (
@@ -68,6 +99,8 @@ class TimersDashboard extends Component {
 
                         onFormSubmit={this.handleEditFormSubmit}
                         onDeleteTimer={this.onDeleteTimer}
+                        onStartClick={this.handleOnStartClick}
+                        onStopClick={this.handleOnStopClick}
                     />
                     <ToggleableTimerForm onFormSubmit={this.handleCreateFormSubmit}/>
                 </div>
@@ -78,7 +111,6 @@ class TimersDashboard extends Component {
         );
     }
 }
-
 
 class ToggleableTimerForm extends Component {
 
@@ -136,6 +168,8 @@ class EditableTimerList extends Component {
                 runningSince={timer.runningSince}
                 onFormSubmit={this.props.onFormSubmit}
                 onDeleteTimer={this.props.onDeleteTimer}
+                onStartClick={this.props.onStartClick}
+                onStopClick={this.props.onStopClick}
             />
         ))
         return (
@@ -146,6 +180,7 @@ class EditableTimerList extends Component {
         );
     }
 }
+
 
 class EditableTimer extends Component {
     //Dashboard --> EditableTimerList --> EditableTimer
@@ -182,13 +217,15 @@ class EditableTimer extends Component {
         }
         else {
             return (
-                <div>
+
                     <Timer
                         id={this.props.id}
                         title={this.props.title}
                         project={this.props.project}
                         elapsed={this.props.elapsed}
                         runningSince={this.props.runningSince}
+                        onStartClick={this.props.onStartClick}
+                        onStopClick={this.props.onStopClick}
 
                         onEditClick={this.handleEditClick}
 
@@ -196,12 +233,105 @@ class EditableTimer extends Component {
 
 
                     />
-                </div>
+
             );
         }
     }
 }
 
+class Timer extends Component {
+    componentDidMount() {
+        this.forceUpdateInterval = setInterval(() => this.forceUpdate(), 50)
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.forceUpdateInterval)
+    }
+
+
+    handleTrashClick = () => {
+        this.props.onDeleteTimer(this.props.id)
+    }
+    handleStartClick = () => {
+        this.props.onStartClick(this.props.id)
+
+    }
+    handleStopClick = () => {
+        this.props.onStopClick(this.props.id)
+    }
+
+
+    render() {
+        const elapsedString = renderElapsedString(this.props.elapsed, this.props.runningSince)
+        return (
+            <div className={'ui centered card'}>
+                <div className={'content'}>
+                    <div className={'header'}>
+                        {this.props.title}
+                    </div>
+                    <div className={'meta'}>
+                        {this.props.project}
+
+                    </div>
+                    <div className={'center aligned description'}>
+                        {elapsedString}
+                    </div>
+                    <div className={'extra content'}>
+                        <span className={'right floated edit icon'}
+                              onClick={this.props.onEditClick}
+
+                        >
+                            <i className={'edit icon'}/>
+                        </span>
+                        <span className={'right floated trash icon'} onClick={this.handleTrashClick}>
+                            <i className={'trash icon'}/>
+
+                        </span>
+
+                    </div>
+
+
+                </div>
+                <TimerActionButton
+                    timerIsRunning={!!this.props.runningSince}
+                    onStartClick={this.handleStartClick}
+                    onStopClick={this.handleStopClick}
+
+                />
+
+
+            </div>
+        );
+
+    }
+}
+
+class TimerActionButton extends Component {
+    render() {
+        if (this.props.timerIsRunning) {
+            return (
+                <div
+                    className={'ui bottom attached red basic button'}
+                    onClick={this.props.onStopClick}
+                >
+                    Stop
+
+                </div>
+            );
+
+        }
+        else {
+            return (
+                <div className={'ui bottom attached green basic button'}
+                     onClick={this.props.onStartClick}
+                >
+                    Start
+                </div>
+            );
+        }
+
+    }
+}
 
 class TimerForm extends Component {
     // Dashboard -> ToggleableTimerForm ------------------> TimerForm
@@ -263,59 +393,8 @@ class TimerForm extends Component {
                 </div>
 
 
-
             </div>
         );
-    }
-}
-
-class Timer extends Component {
-    componentDidMount(){
-        this.forceUpdateInterval = setInterval(()=>this.forceUpdate(),50)
-    }
-    componentWillUnmount(){
-        clearInterval(this.forceUpdateInterval)
-    }
-
-
-    handleTrashClick = () => {
-        this.props.onDeleteTimer(this.props.id)
-    }
-
-    render() {
-        const elapsedString = helpers.renderElapsedString(this.props.elapsed,this.props.runningSince)
-        return (
-            <div className={'ui centered card'}>
-                <div className={'content'}>
-                    <div className={'header'}>
-                        {this.props.title}
-                    </div>
-                    <div className={'meta'}>
-                        {this.props.project}
-
-                    </div>
-                    <div className={'center aligned description'}>
-                        {this.elapsedString}
-                    </div>
-                    <div className={'extra content'}>
-                        <span className={'right floated edit icon'}
-                              onClick={this.props.onEditClick}
-
-                        >
-                            <i className={'edit icon'}/>
-                        </span>
-                    </div>
-                    <span className={'right floated trash icon'} onClick={this.handleTrashClick}>
-                        <i className={'trash icon'}/>
-
-                    </span>
-
-                </div>
-
-
-            </div>
-        );
-
     }
 }
 

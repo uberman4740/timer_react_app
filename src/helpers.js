@@ -1,13 +1,10 @@
 
-function pad(numberString, size) {
-    let padded = numberString;
-    while (padded.length < size) padded = `0${padded}`;
-    return padded;
-}
-function millisecondsToHuman(ms) {
-    seconds = Math.floor((ms/1000) %60)
-    minutes = Math.floor((ms/(1000*60))%60)
-    hours= Math.floor((ms/(1000*3600))%24)
+
+export function millisecondsToHuman(ms) {
+    const seconds = Math.floor((ms / 1000) % 60);
+    const minutes = Math.floor((ms / 1000 / 60) % 60);
+    const hours = Math.floor(ms / 1000 / 60 / 60);
+
     const humanized = [
         pad(hours.toString(), 2),
         pad(minutes.toString(), 2),
@@ -15,14 +12,20 @@ function millisecondsToHuman(ms) {
     ].join(':');
 
     return humanized;
-
-
 }
-export function renderElapsedString  (elapsed, runningSince)  {
-    totalElapsedTime = 0
+
+export function pad(numberString, size) {
+    let padded = numberString;
+    while (padded.length < size) padded = `0${padded}`;
+    return padded;
+}
+
+export function renderElapsedString(elapsed, runningSince) {
+    let totalElapsed = elapsed;
     if (runningSince) {
-        totalElapsedTime += Date.now() - elapsed
+        totalElapsed += Date.now() - runningSince;
     }
-    return millisecondsToHuman(totalElapsedTime)
+    return millisecondsToHuman(totalElapsed);
 }
+
 
