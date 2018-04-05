@@ -57,14 +57,18 @@ class TimersDashboard extends Component {
 
     render() {
         return (
-            <div>
-                <EditableTimerList
-                    timers={this.state.timers}
+            <div className ='ui three column centered grid container'>
+                <div className='column'>
+                    <EditableTimerList
+                        timers={this.state.timers}
 
-                    onFormSubmit={this.handleEditFormSubmit}
-                    onDeleteTimer={this.onDeleteTimer}
-                />
-                <ToggleableTimerForm onFormSubmit={this.handleCreateFormSubmit}/>
+                        onFormSubmit={this.handleEditFormSubmit}
+                        onDeleteTimer={this.onDeleteTimer}
+                    />
+                    <ToggleableTimerForm onFormSubmit={this.handleCreateFormSubmit}/>
+                </div>
+
+
             </div>
 
         );
@@ -99,11 +103,15 @@ class ToggleableTimerForm extends Component {
         }
         else {
             return (
-                <button
-                    onClick={this.handleFormOpen}
-                >
-                    Add new item
-                </button>
+                <div className='ui basic content center aligned segment'>
+                    <button
+                        className={'ui basic button icon'}
+                        onClick={this.handleFormOpen}
+                    >
+                        <i className={'plus icon'} />
+                    </button>
+                </div>
+
             );
 
         }
