@@ -57,7 +57,7 @@ class TimersDashboard extends Component {
 
     render() {
         return (
-            <div className ='ui three column centered grid container'>
+            <div className='ui three column centered grid container'>
                 <div className='column'>
                     <EditableTimerList
                         timers={this.state.timers}
@@ -108,7 +108,7 @@ class ToggleableTimerForm extends Component {
                         className={'ui basic button icon'}
                         onClick={this.handleFormOpen}
                     >
-                        <i className={'plus icon'} />
+                        <i className={'plus icon'}/>
                     </button>
                 </div>
 
@@ -135,7 +135,7 @@ class EditableTimerList extends Component {
             />
         ))
         return (
-            <div>
+            <div id={'timers'}>
                 {timers}
 
             </div>
@@ -223,30 +223,42 @@ class TimerForm extends Component {
     render() {
         const submitText = this.props.id ? 'Update' : 'Create';
         return (
-            <div>
-                <div>
-                    <label>Title</label>
-                    <input type='text'
-                           value={this.state.title}
-                           onChange={this.handleTitleChange}
-                    />
-                </div>
-                <div>
-                    <label>Project</label>
-                    <input
-                        type='text'
-                        value={this.state.project}
-                        onChange={this.handleProjectChange}/>
-                </div>
-                <div>
+            <div className={'ui centered card'}>
+                <div className={'content'}>
+                    <div className={'ui form'}>
+                        <div className={'field'}>
+                            <label>Title</label>
+                            <input type='text'
+                                   value={this.state.title}
+                                   onChange={this.handleTitleChange}
+                            />
+                        </div>
+                        <div className={'field'}>
+                            <label>Project</label>
+                            <input
+                                type='text'
+                                value={this.state.project}
+                                onChange={this.handleProjectChange}/>
+                        </div>
+                        <div className={'ui two bottom attached buttons'}>
 
-                    <button onClick={this.handleSubmit}>
-                        {submitText}
-                    </button>
-                    <button onClick={this.props.onFormClose}>
-                        Cancel
-                    </button>
+                            <button
+                                className={'ui basic blue button'}
+                                onClick={this.handleSubmit}>
+                                {submitText}
+                            </button>
+                            <button
+                                className={'ui basic red button'}
+                                onClick={this.props.onFormClose}>
+                                Cancel
+                            </button>
+                        </div>
+
+                    </div>
+
                 </div>
+
+
 
             </div>
         );
@@ -260,15 +272,34 @@ class Timer extends Component {
 
     render() {
         return (
-            <div>
-                {this.props.title}
-                {this.props.project}
-                {this.props.elapsed}
-                <button>
-                    Start
-                </button>
-                <button onClick={this.props.onEditClick}>Edit</button>
-                <button onClick={this.handleTrashClick}>Delete</button>
+            <div className={'ui centered card'}>
+                <div className={'content'}>
+                    <div className={'header'}>
+                        {this.props.title}
+                    </div>
+                    <div className={'meta'}>
+                        {this.props.project}
+
+                    </div>
+                    <div className={'center aligned description'}>
+                        {this.props.elapsed}
+                    </div>
+                    <div className={'extra content'}>
+                        <span className={'right floated edit icon'}
+                              onClick={this.props.onEditClick}
+
+                        >
+                            <i className={'edit icon'}/>
+                        </span>
+                    </div>
+                    <span className={'right floated trash icon'} onClick={this.handleTrashClick}>
+                        <i className={'trash icon'}/>
+
+                    </span>
+
+                </div>
+
+
             </div>
         );
 
