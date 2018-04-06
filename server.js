@@ -6,13 +6,37 @@ const path = require('path');
 
 const app = express();
 
-const DATA_FILE = path.join(__dirname, 'data.json');
+// const DATA_FILE = path.join(__dirname, 'data.json');
+const DATA_FILE = [
+  {
+    title: 'Kh K Sucks',
+    project: 'San Deigo',
+    elapsed: 5456099,
+    id: '0a4a79cb-b06d-4cb1-883d-549a1e3b66d7',
+  },
+  {
+    title: 'I am GOD',
+    project: 'Universe',
+    elapsed: 1273998,
+    id: 'a73c1d19-f32d-4aff-b470-cea4e792406a',
+  },
+  {
+    title: 'fg',
+    project: 'Project',
+    id: 'a84b7e0a-ab4d-41b5-9145-6555d92413f4',
+    elapsed: 0,
+    runningSince: null,
+  },
+];
 
 app.set('port', (process.env.PORT || 4200));
 // Express only serves static assets in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.resolve(__dirname,'build');
+  app.use(express.static(path.resolve(__dirname, 'build')));
 }
+// app.get('*', (req, res) => {
+//   res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+// });
 // app.use('/', express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.json());
