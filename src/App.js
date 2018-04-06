@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {renderElapsedString} from './helpers.js'
-import {getTimers} from './client'
+import {getTimers,createTimer,updateTimer,deleteTimer,startTimer,stopTimer} from './client'
 
 const uuidv4 = require('uuid/v4');
 
@@ -41,6 +41,7 @@ class TimersDashboard extends Component {
         this.setState({
             timers: this.state.timers.filter(timer => timer.id !== timerId)
         })
+        deleteTimer({id:timerId})
     }
     handleCreateFormSubmit = (timer) => {
         const newTimer = {
@@ -54,6 +55,7 @@ class TimersDashboard extends Component {
         this.setState({
             timers: this.state.timers.concat(newTimer)
         });
+        createTimer(newTimer)
     }
     handleEditFormSubmit = (attr) => {
         this.setState({
@@ -66,6 +68,7 @@ class TimersDashboard extends Component {
                 }
             })
         })
+        updateTimer(attr)
 
 
     }
@@ -84,6 +87,7 @@ class TimersDashboard extends Component {
                 }
             })
         })
+        startTimer({id:timerId,start:now})
     }
     handleOnStopClick = (timerId) =>{
         const now = Date.now();
@@ -99,6 +103,7 @@ class TimersDashboard extends Component {
             }
 
         })})
+        stopTimer({id:timerId,stop:now})
     }
 
 
