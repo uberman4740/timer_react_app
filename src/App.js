@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {renderElapsedString} from './helpers.js'
+import {getTimers} from './client'
 
 const uuidv4 = require('uuid/v4');
 
@@ -23,6 +24,17 @@ class TimersDashboard extends Component {
             // }
         ]
     }
+    componentDidMount() {
+        this.loadTimersFromServer();
+        setInterval(this.loadTimersFromServer, 5000);
+    }
+    loadTimersFromServer = () => {
+        getTimers((serverTimers) => (
+                this.setState({ timers: serverTimers })
+            )
+        );
+    };
+
 
 
     onDeleteTimer = (timerId) => {
