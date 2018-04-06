@@ -11,9 +11,10 @@ const DATA_FILE = path.join(__dirname, 'data.json');
 app.set('port', (process.env.PORT || 4200));
 // Express only serves static assets in production
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('build'));
+  app.use(express.static(path.resolve(__dirname,'build');
 }
 // app.use('/', express.static(path.join(__dirname, 'public')));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
