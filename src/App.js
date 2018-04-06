@@ -6,21 +6,21 @@ const uuidv4 = require('uuid/v4');
 class TimersDashboard extends Component {
     state = {
         timers: [
-            {
-                title: "Morning Coding",
-                project: "Personal Development",
-                elapsed: 0,
-                runningSince: null,
-                id: uuidv4()
-            },
-            {
-                title: "Cooking Breakfast",
-                project: "Food",
-                elapsed: 219894,
-                runningSince: Date.now(),
-                id: uuidv4()
-
-            }
+            // {
+            //     title: "Morning Coding",
+            //     project: "Personal Development",
+            //     elapsed: 0,
+            //     runningSince: null,
+            //     id: uuidv4()
+            // },
+            // {
+            //     title: "Cooking Breakfast",
+            //     project: "Food",
+            //     elapsed: 219894,
+            //     runningSince: Date.now(),
+            //     id: uuidv4()
+            //
+            // }
         ]
     }
 
